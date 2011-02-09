@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/linearlayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main"
+ >
+    
+    
+   <com.test.CoverFlow
+    android:id="@+id/test"
+    android:layout_width="500dip"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="26dip"
+	android:layout_marginLeft="10dip"/>
+
+   
+</RelativeLayout>
