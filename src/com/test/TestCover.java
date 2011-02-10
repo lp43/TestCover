@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 public class TestCover extends Activity {
 	 public final String tag="tag";
-	private String version="v1.0.3";
+	private String version="v1.0.4";
 
 
 
@@ -79,7 +79,7 @@ public class TestCover extends Activity {
 	     coverFlow.setSelection(Integer.MAX_VALUE/2, true);
 	     //滑動的速率
 	     coverFlow.setAnimationDuration(1000);
-	     coverFlow.setUnselectedAlpha(0.2f);
+
 	     
 //	     LinearLayout ll=(LinearLayout) this.findViewById(R.id.linearlayout);
 //	     TextView tv=(TextView) this.findViewById(R.id.tv);
@@ -111,19 +111,27 @@ public class TestCover extends Activity {
 	     
 	     String[] apk_name={
 	    		"WallBlackChanger",
-	    		"SimpleMosaic",
-	    		"Earth Defence",
+	    		"SimpleMortgageCalculator",
+	    		"ロイタージャパンニュー..."/*スリーダー*/,
 	    		"Untangle Me",
 	    		"Birdy Jumper",
 	     };
 	     
-	     String[] apk_instruction={
-		    		"壁紙チェンジャー",
-		    		"モザイクソフト",
-		    		"Earth defence game",
-		    		"Uncross all lines on board",
-		    		"Jump between spots to pass level",
-		     };
+//	     String[] apk_instruction={
+//		    		"壁紙チェンジャー",
+//		    		"モザイクソフト",
+//		    		"Earth defence game",
+//		    		"Uncross all lines on board",
+//		    		"Jump between spots to pass level",
+//		     };
+	     
+		     String[] apk_amount={
+		 		"免費",
+		 		"USD$0.99",
+		 		"USD$1.99",
+		 		"USD$2.99",
+		 		"USD$3.99",
+	  };
 	     
 	     public Integer[] mImageIds = {
 	             R.drawable.card,
@@ -161,8 +169,8 @@ public class TestCover extends Activity {
 	          
 	          int index = 0;
 	          for (int imageId : mImageIds) {
-	        Bitmap originalImage = BitmapFactory.decodeResource(getResources(),
-	          imageId);
+		        Bitmap originalImage = BitmapFactory.decodeResource(getResources(),
+		          imageId);
 	           int width = originalImage.getWidth();
 	           int height = originalImage.getHeight();
 	
@@ -188,7 +196,7 @@ public class TestCover extends Activity {
 	          canvas.drawBitmap(originalImage, 0, 0, null);
 	          //Draw in the gap
 	          Paint deafaultPaint = new Paint();
-	          canvas.drawRect(0, height, width, height + reflectionGap, deafaultPaint);
+	          canvas.drawRect(0, height, width-10, height + reflectionGap, deafaultPaint);
 	          //Draw in the reflection
 	          canvas.drawBitmap(reflectionImage,0, height + reflectionGap, null);
 	          
@@ -205,22 +213,32 @@ public class TestCover extends Activity {
 	          canvas.drawRect(0, height, width,
 	            bitmapWithReflection.getHeight() + reflectionGap, paint);
 	          
+	       
+
 	          //畫上卡片的文字
-	          Paint textpaint=new Paint();
-	          textpaint.setColor(R.color.black);
+	          Paint color_paint=new Paint();
+	          color_paint.setAntiAlias(true);//抗鋸齒
+	
+//	          color_paint.setColor(R.color.white);
 	          Bitmap bitmap_apkicon=BitmapFactory.decodeResource(TestCover.this.getResources(), apk_icon[index]);
-	          canvas.drawBitmap(bitmap_apkicon, 20, 20, textpaint);
+	          canvas.drawBitmap(bitmap_apkicon, 20, 20, color_paint);
 	          
+	          //畫上價錢
+	          canvas.drawText(apk_amount[index], 95, 40, color_paint);
+	          
+	          //畫一堆星星，佈置天空的顏色，哪來的天空=.=
 	          Bitmap bitmap_star=BitmapFactory.decodeResource(TestCover.this.getResources(), star[0]);
 	          Bitmap bitmap_nostar=BitmapFactory.decodeResource(TestCover.this.getResources(), star[1]);
-	          canvas.drawBitmap(bitmap_star, 80, 50, textpaint);
-	          canvas.drawBitmap(bitmap_star, 95, 50, textpaint);
-	          canvas.drawBitmap(bitmap_star, 110, 50, textpaint);
-	          canvas.drawBitmap(bitmap_nostar, 125, 50, textpaint);
-	          canvas.drawBitmap(bitmap_nostar, 140, 50, textpaint);
+	          canvas.drawBitmap(bitmap_star, 80, 50, color_paint);
+	          canvas.drawBitmap(bitmap_star, 95, 50, color_paint);
+	          canvas.drawBitmap(bitmap_star, 110, 50, color_paint);
+	          canvas.drawBitmap(bitmap_nostar, 125, 50, color_paint);
+	          canvas.drawBitmap(bitmap_nostar, 140, 50, color_paint);
 	          
-	          canvas.drawText(apk_name[index], 80, 40, textpaint);
-	          canvas.drawText(apk_instruction[index], 20, 90, textpaint);
+	          //畫上APK名稱
+	          canvas.drawText(apk_name[index], 20, 90, color_paint);
+	          //原本要拿來放簡述，後來Sunny說不要了
+//	          canvas.drawText(apk_instruction[index], 20, 90, color_paint);
 	          
 	          
 	          ImageView imageView = new ImageView(mContext);
@@ -268,7 +286,14 @@ public class TestCover extends Activity {
 //	    	 Log.i(tag, "position: "+position%mImageIds.length);
 	    	
 	    	 mImages[position%mImageIds.length].setId(position%mImageIds.length);
-	    
+	    	 
+	    	 //讓程式一開起來的時候就可以有透明度的區分
+	    	 if(position%mImageIds.length==Integer.MAX_VALUE/2){
+	    		 mImages[position%mImageIds.length].setAlpha(255);
+	    	 }else{
+	    		 mImages[position%mImageIds.length].setAlpha(100);
+	    	 }
+	    	 
 //	    	 Log.i(tag, "position: "+position);
 	    	 
 	    	return mImages[position%mImageIds.length];	
